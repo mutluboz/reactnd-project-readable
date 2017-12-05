@@ -16,3 +16,15 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.no-text-decoration{
+  text-decoration: none;
+}
+
+.post-master{
+  margin: 10px 10px 5px 10px;
+}
+
+.post-comment{
+  margin:4px 10px 0 40px;
+}

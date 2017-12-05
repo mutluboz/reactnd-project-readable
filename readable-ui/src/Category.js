@@ -1,15 +1,8 @@
-import React from 'react';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
-import Post from './Post';
-import SortMenu from './Common/SortMenu';
-
-
-function handleTouchTap() {
-    alert('onClick triggered on the title component');
-}
+import React from 'react'
+import AppBar from 'material-ui/AppBar'
+import Post from './Post'
+import SortMenu from './Common/SortMenu'
+import { PostTypes } from './constants'
 
 const styles = {
     title: {
@@ -17,21 +10,18 @@ const styles = {
     },
 };
 
-
-
 const Category = function (props) {
     return (
         <div>
             <AppBar
                 title={<span style={styles.title}>{props.Title}</span>}
-                onTitleTouchTap={handleTouchTap}
-                iconElementLeft={<IconButton><ContentAddCircle /></IconButton>}
+                showMenuIconButton={false}
                 iconElementRight={<SortMenu />}
             />
             <div style={{ margin: 10 + 'px' }}>
-                <Post />
-                <Post />
-                <Post />
+                <Post postType={PostTypes.list} title="Post 1" />
+                <Post postType={PostTypes.list} title="Post 2" />
+                <Post postType={PostTypes.list} title="Post 3" />
             </div>
         </div>
     )

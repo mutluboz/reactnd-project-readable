@@ -1,23 +1,21 @@
 import React from 'react'
 import { Card, CardText, CardTitle } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
 import VoteBar from './Common/VoteBar'
 import Divider from 'material-ui/Divider';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import DeleteIcon from 'material-ui/svg-icons/content/clear';
 import IconButton from 'material-ui/IconButton';
-
-
-const voteBarStyle = {
-    paddingTop: 0 + ' important!'
-}
+import { Link } from 'react-router-dom'
+import { PostTypes } from './constants';
 
 const Post = (props) => {
     return (
-        <div style={{ margin: 10 + 'px' }}>
+        <div className={props.postType === PostTypes.comment ? "post-comment" : "post-master"}>
             <Card>
                 <div className="flex-container">
-                    <CardTitle title="Card title" subtitle={`submitted 2 days ago by Mutlu - 20 comments`} />
+                    <Link to='/posts' className="no-text-decoration">
+                        <CardTitle title={props.title} subtitle={`submitted 2 days ago by Mutlu - 20 comments`} />
+                    </Link>
                     <div>
                         <IconButton><EditIcon /></IconButton>
                         <IconButton><DeleteIcon /></IconButton>
