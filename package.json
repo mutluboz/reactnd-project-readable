@@ -1,0 +1,30 @@
+{
+  "name": "reactnd-project-readable",
+  "version": "0.0.1",
+  "description": "Udacity React Nanodegree Project #2",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mutluboz/reactnd-project-readable.git"
+  },
+  "keywords": [
+    "react",
+    "udacity",
+    "redux"
+  ],
+  "author": "Mutlu Boz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mutluboz/reactnd-project-readable/issues"
+  },
+  "homepage": "https://github.com/mutluboz/reactnd-project-readable#readme",
+  "dependencies": {
+    "create-react-app": "^1.4.3",
+    "material-ui": "^0.19.4",
+    "react-tap-event-plugin": "^3.0.2"
+  }
+}
