@@ -4,12 +4,25 @@ import './index.css'
 import App from './Components/App'
 import { BrowserRouter } from 'react-router-dom'
 // import registerServiceWorker from './registerServiceWorker';
+import { Provider } from 'react-redux'
+import { createStore/*, applyMiddleware, compose*/ } from 'redux'
+import reducer from './Reducers'
 
+const store = createStore(
+    reducer,
+    //composeEnhancers(
+    //applyMiddleware(logger)
+    //)
+)
+
+//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 ReactDOM.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>,
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>,
     document.getElementById('root'));
 
-    // registerServiceWorker();
+// registerServiceWorker();
