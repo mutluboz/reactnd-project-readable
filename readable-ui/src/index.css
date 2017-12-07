@@ -8,7 +8,6 @@ body {
   display: flex;
   flex-flow: row;
   align-items: center;
-  justify-content: space-between;
 }
 
 
@@ -27,4 +26,8 @@ body {
 
 .post-comment{
   margin:4px 10px 0 40px;
+}
+
+.justify-content-space-between{
+  justify-content: space-between;
 }

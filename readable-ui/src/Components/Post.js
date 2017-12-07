@@ -9,12 +9,20 @@ import { Link } from 'react-router-dom'
 import { PostTypes } from '../constants';
 
 const Post = (props) => {
+    const { post } = props;
+    const cardTextStyle = {
+
+    }
+
     return (
         <div className={props.postType === PostTypes.comment ? "post-comment" : "post-master"}>
             <Card>
-                <div className="flex-container">
+                <div className="flex-container justify-content-space-between">
                     <Link to='/posts' className="no-text-decoration">
-                        <CardTitle title={props.title} subtitle={`submitted 2 days ago by Mutlu - 20 comments`} />
+                        <CardTitle
+                            title={post.title}
+                            subtitle={`submitted 2 days ago by ${post.author} - ${post.commentCount} comments`}
+                        />
                     </Link>
                     <div>
                         <IconButton><EditIcon /></IconButton>
@@ -23,21 +31,10 @@ const Post = (props) => {
                 </div>
                 <Divider />
                 <div className="flex-container">
-                    <VoteBar />
-                    <CardText>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                    Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                    Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                    Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                    Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                    Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                    Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                    </CardText>
+                    <VoteBar score={post.voteScore} />
+                    <div className="post-body">
+                        <CardText style={cardTextStyle}>{post.body}</CardText>
+                    </div>
                 </div>
             </Card>
         </div>

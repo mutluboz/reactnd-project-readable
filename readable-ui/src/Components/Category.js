@@ -19,9 +19,13 @@ const Category = function (props) {
                 iconElementRight={<SortMenu />}
             />
             <div style={{ margin: 10 + 'px' }}>
-                <Post postType={PostTypes.list} title="Post 1" />
-                <Post postType={PostTypes.list} title="Post 2" />
-                <Post postType={PostTypes.list} title="Post 3" />
+                {props.Posts.map((post) => {
+                    return <Post
+                        key={post.id}
+                        postType={PostTypes.list}
+                        post={post}
+                    />
+                })}
             </div>
         </div>
     )
