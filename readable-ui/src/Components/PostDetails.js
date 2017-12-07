@@ -1,6 +1,6 @@
 import React from 'react'
 import Post from './Post'
-import { PostTypes } from './constants';
+import { PostTypes } from '../constants';
 import FloatingActionBtn from './Common/FloatingActionBtn'
 import SortMenu from './Common/SortMenu'
 import AppBar from 'material-ui/AppBar'

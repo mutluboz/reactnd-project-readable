@@ -2,7 +2,7 @@ import React from 'react'
 import AppBar from 'material-ui/AppBar'
 import Post from './Post'
 import SortMenu from './Common/SortMenu'
-import { PostTypes } from './constants'
+import { PostTypes } from '../constants'
 
 const styles = {
     title: {

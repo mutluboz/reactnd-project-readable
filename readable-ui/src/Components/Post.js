@@ -6,7 +6,7 @@ import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import DeleteIcon from 'material-ui/svg-icons/content/clear';
 import IconButton from 'material-ui/IconButton';
 import { Link } from 'react-router-dom'
-import { PostTypes } from './constants';
+import { PostTypes } from '../constants';
 
 const Post = (props) => {
     return (
