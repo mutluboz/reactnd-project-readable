@@ -1,12 +1,16 @@
-import { FETCH_POSTS } from '../Actions/PostActions'
-import { GroupBy } from '../Utils/Helpers'
+import { FETCH_POSTS, UPDATE_POST_SCORE } from '../Actions/PostActions'
 
-function PostData(state = {}, action) {
+function PostData(state = [], action) {
     switch (action.type) {
         case FETCH_POSTS: {
-            const { posts } = action
+            return action.posts
+        }
+        case UPDATE_POST_SCORE: {
+            const { id, isUpvote } = action
             
-            return GroupBy(posts, 'category')
+            const addWith = isUpvote ? 1 : -1;
+
+           return state
         }
         default:
             return state

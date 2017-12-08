@@ -25,7 +25,19 @@ export const updatePostScore = (id, isUpVote) =>
         headers: {
             ...headers,
             'Content-Type': 'application/json'
-          },
+        },
+        body: JSON.stringify({
+            option: isUpVote ? 'upVote' : 'downVote'
+        })
+    }).then(res => res.json())
+
+export const updateCommentScore = (id, isUpVote) =>
+    fetch(`${apiUrl}/comments/${id}`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             option: isUpVote ? 'upVote' : 'downVote'
         })

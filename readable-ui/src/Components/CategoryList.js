@@ -3,6 +3,7 @@ import Category from './Category'
 import FloatingActionBtn from './Common/FloatingActionBtn'
 import { connect } from 'react-redux'
 import { fetchPostsAsync } from '../Actions/PostActions'
+import { GroupBy } from '../Utils/Helpers'
 
 class CategoryList extends React.Component {
     
@@ -11,12 +12,15 @@ class CategoryList extends React.Component {
     }
 
     render() {
+
+        const { posts } = this.props;
+
         return (
             <div>
-                {Object.keys(this.props.PostData).sort().map((c) => {
+                {posts && Object.keys(posts).sort().map((c) => {
                     return <Category key={c}
                         Title={c}
-                        Posts={this.props.PostData[c]}
+                        Posts={posts[c]}
                     />
                 })}
 
@@ -24,14 +28,14 @@ class CategoryList extends React.Component {
             </div>
         )
     }
-
 }
 
 function mapStateToProps({ PostData }) {
     return {
-        PostData
+        posts : GroupBy(PostData,'category')
     }
 }
+
 
 function mapDispatchToProps(dispatch) {
     return {

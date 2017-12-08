@@ -23,7 +23,7 @@ const Category = function (props) {
                     return <Post
                         key={post.id}
                         postType={PostTypes.list}
-                        post={post}
+                        id={post.id}
                     />
                 })}
             </div>
