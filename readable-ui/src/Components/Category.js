@@ -11,6 +11,7 @@ const styles = {
 };
 
 const Category = function (props) {
+    console.log(props);
     return (
         <div>
             <AppBar
@@ -18,15 +19,14 @@ const Category = function (props) {
                 showMenuIconButton={false}
                 iconElementRight={<SortMenu />}
             />
-            <div style={{ margin: 10 + 'px' }}>
-                {props.Posts.map((post) => {
-                    return <Post
-                        key={post.id}
-                        postType={PostTypes.list}
-                        id={post.id}
-                    />
-                })}
-            </div>
+
+            {props.Posts.map((post) => {
+                return <Post
+                    key={post.id}
+                    postType={PostTypes.list}
+                    id={post.id}
+                />
+            })}
         </div>
     )
 }

@@ -43,7 +43,7 @@ class Post extends React.Component {
 
 function mapStateToProps( {PostData} , ownProps) {
     return {
-        post : PostData.find(p => p.id === ownProps.id)
+        post : PostData[ownProps.id]
     }
 }
 
