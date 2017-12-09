@@ -20,14 +20,14 @@ export function fetchPostsAsync() {
   }
 }
 
-export function votePostAsync(category, id, isUpvote) {
+export function votePostAsync(id, isUpvote, currentScore) {
   return (dispatch) => {
     updatePostScore(id, isUpvote).then(() => {
       dispatch({
         type: UPDATE_POST_SCORE,
-        category,
         id,
-        isUpvote
+        isUpvote,
+        currentScore
       })
     })
   }

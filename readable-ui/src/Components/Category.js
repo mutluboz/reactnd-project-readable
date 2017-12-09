@@ -11,7 +11,6 @@ const styles = {
 };
 
 const Category = function (props) {
-    console.log(props);
     return (
         <div>
             <AppBar

@@ -6,11 +6,18 @@ function PostData(state = {}, action) {
             return action.posts
         }
         case UPDATE_POST_SCORE: {
-            const { id, isUpvote } = action
+            const { id, isUpvote, currentScore } = action
             
             const addWith = isUpvote ? 1 : -1;
+            const newScore = currentScore + addWith;
 
-           return state
+           return {
+               ...state,
+               [id] : {
+                   ...state[id],
+                   voteScore : newScore
+               }
+           }
         }
         default:
             return state

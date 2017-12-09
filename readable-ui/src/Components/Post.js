@@ -49,7 +49,7 @@ function mapStateToProps( {PostData} , ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        votePost: (id, isUpvote) => dispatch(votePostAsync(id, isUpvote)),
+        votePost: (id, isUpvote, currentScore) => dispatch(votePostAsync(id, isUpvote, currentScore)),
     }
 }
 

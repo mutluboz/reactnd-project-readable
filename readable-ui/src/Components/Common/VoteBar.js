@@ -7,7 +7,7 @@ import Badge from 'material-ui/Badge';
 
 const VoteBar = ({ score = 0 , id , onVoteClick }) => (
     <CardActions className="v-flex-container">
-        <IconButton onClick={f=>onVoteClick(id , true)}>
+        <IconButton onClick={f=>onVoteClick(id , true , score)}>
             <HardwareKeyboardUp />
         </IconButton>
         <Badge
@@ -15,7 +15,7 @@ const VoteBar = ({ score = 0 , id , onVoteClick }) => (
             primary={true}
             badgeStyle={{ top: 6, right: 12 }}
         />
-        <IconButton onClick={f=>onVoteClick(id , false)}>
+        <IconButton onClick={f=>onVoteClick(id , false, score)}>
             <HardwareKeyboardDown />
         </IconButton >
     </CardActions>
