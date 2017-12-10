@@ -7,9 +7,7 @@ function PostData(state = {}, action) {
         }
         case UPDATE_POST_SCORE: {
             const { id, isUpvote, currentScore } = action
-            
-            const addWith = isUpvote ? 1 : -1;
-            const newScore = currentScore + addWith;
+            const newScore = currentScore + (isUpvote ? 1 : -1);
 
            return {
                ...state,

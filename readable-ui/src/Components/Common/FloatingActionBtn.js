@@ -13,7 +13,7 @@ const style = {
 
 const FloatingActionBtn = (props) => {
     return (
-        <FloatingActionButton style={style} >
+        <FloatingActionButton style={style} onClick={props.onClick} >
             <ContentAdd />
         </FloatingActionButton>
     )
