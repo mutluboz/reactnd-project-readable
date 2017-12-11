@@ -1,4 +1,10 @@
-import { FETCH_POSTS, UPDATE_POST_SCORE } from '../Actions/PostActions'
+import {
+    FETCH_POSTS,
+    UPDATE_POST_SCORE,
+    ADD_POST,
+    MODIFY_POST,
+    DELETE_POST
+} from '../Actions/PostActions'
 
 function PostData(state = {}, action) {
     switch (action.type) {
@@ -9,13 +15,31 @@ function PostData(state = {}, action) {
             const { id, isUpvote, currentScore } = action
             const newScore = currentScore + (isUpvote ? 1 : -1);
 
-           return {
-               ...state,
-               [id] : {
-                   ...state[id],
-                   voteScore : newScore
-               }
-           }
+            return {
+                ...state,
+                [id]: {
+                    ...state[id],
+                    voteScore: newScore
+                }
+            }
+        }
+        case ADD_POST: {
+            const { post } = action
+            return {
+                ...state,
+                [post.id]: post
+            }
+
+        }
+        case MODIFY_POST: {
+            return {}
+        }
+        case DELETE_POST: {
+            const { postId } = action
+            return {
+                ...state,
+                [postId]: undefined
+            }
         }
         default:
             return state

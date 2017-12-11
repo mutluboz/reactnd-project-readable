@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton'
 import { Link } from 'react-router-dom'
 import { PostTypes } from '../constants'
 import { connect } from 'react-redux'
-import { votePostAsync } from '../Actions/PostActions'
+import { votePostAsync, deletePostAsync } from '../Actions/PostActions'
 
 class Post extends React.Component {
     render() {
@@ -25,7 +25,9 @@ class Post extends React.Component {
                         </Link>
                         <div>
                             <IconButton><EditIcon /></IconButton>
-                            <IconButton><DeleteIcon /></IconButton>
+                            <IconButton>
+                                <DeleteIcon onClick={f => this.props.deletePost(post.id)} />
+                            </IconButton>
                         </div>
                     </div>
                     <Divider />
@@ -41,15 +43,16 @@ class Post extends React.Component {
     }
 }
 
-function mapStateToProps( {PostData} , ownProps) {
+function mapStateToProps({ PostData }, ownProps) {
     return {
-        post : PostData[ownProps.id]
+        post: PostData[ownProps.id]
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         votePost: (id, isUpvote, currentScore) => dispatch(votePostAsync(id, isUpvote, currentScore)),
+        deletePost: (id) => dispatch(deletePostAsync(id)),
     }
 }
 

@@ -2,7 +2,8 @@ import React from 'react'
 import Category from './Category'
 import FloatingActionBtn from './Common/FloatingActionBtn'
 import { connect } from 'react-redux'
-import { fetchPostsAsync } from '../Actions/PostActions'
+import { fetchPostsAsync, addOrUpdatePostAsync } from '../Actions/PostActions'
+import { togglePostModal } from '../Actions/PostModalActions'
 import { getCategories } from '../Utils/ReadableApi'
 import EntryModal from './Common/EntryModal'
 
@@ -12,8 +13,7 @@ class CategoryList extends React.Component {
     state = {
         //since only this component uses categoryList, we can store categories in component state
         //rather than redux store
-        categories: [],
-        entryModalOpen: false
+        categories: []
     }
 
     componentDidMount() {
@@ -26,20 +26,16 @@ class CategoryList extends React.Component {
         this.props.getPosts();
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
         //prevent unnecessary renders
         return nextProps.posts.length !== this.props.posts.length ||
-            nextState.entryModalOpen !== this.state.EntryModal;
+            nextProps.isPostModalOpen !== this.props.isPostModalOpen;
     }
 
-    filterByCategory = (posts, category) => posts.filter(post => post.category === category)
-
-    closeEntryModal = () => this.setState({ entryModalOpen: false })
-
-    openEntryModal = () => this.setState({ entryModalOpen: true })
+    filterByCategory = (posts, category) => posts.filter(post => post && post.category === category)
 
     render() {
-        const { posts } = this.props;
+        const { posts, togglePostModal } = this.props;
 
         return (
             <div>
@@ -51,21 +47,23 @@ class CategoryList extends React.Component {
                         />
                     })}
 
-                <FloatingActionBtn onClick={this.openEntryModal} />
+                <FloatingActionBtn onClick={f => togglePostModal(true)} />
                 <EntryModal
-                    isOpen={this.state.entryModalOpen}
-                    closeModal={this.closeEntryModal}
+                    isOpen={this.props.isPostModalOpen}
+                    closeModal={f => togglePostModal(false)}
                     categoryList={this.state.categories}
+                    onSubmit={this.props.addOrUpdatePost}
                 />
             </div>
         )
     }
 }
 
-function mapStateToProps({ PostData }) {
+function mapStateToProps({ PostData, PostModal }) {
     return {
         //denormalize posts for filtering
-        posts: PostData ? Object.keys(PostData).map(val => PostData[val]) : []
+        posts: PostData ? Object.keys(PostData).map(val => PostData[val]) : [],
+        isPostModalOpen: PostModal.isVisible
     }
 }
 
@@ -73,6 +71,8 @@ function mapStateToProps({ PostData }) {
 function mapDispatchToProps(dispatch) {
     return {
         getPosts: () => dispatch(fetchPostsAsync()),
+        addOrUpdatePost: (isUpdating, post) => dispatch(addOrUpdatePostAsync(isUpdating, post)),
+        togglePostModal: (show) => dispatch(togglePostModal(show))
     }
 }
 

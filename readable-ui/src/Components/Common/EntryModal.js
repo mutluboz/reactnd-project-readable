@@ -8,10 +8,27 @@ import TextField from 'material-ui/TextField'
 class EntryModal extends React.Component {
 
     state = {
-        value: null
+        categoryValue: null,
+        body: null,
+        title: null,
+        author: null
     };
 
     handleChange = (event, index, value) => this.setState({ value });
+
+    handleSubmit = () => {
+        this.props.onSubmit(
+            false,
+            {
+                category: this.state.value,
+                title: this.state.title,
+                body: this.state.body,
+                author: this.state.author
+            }
+        )
+
+        this.props.closeModal()
+    }
 
     render() {
         const { categoryList } = this.props
@@ -34,7 +51,7 @@ class EntryModal extends React.Component {
             <FlatButton
                 label="Submit"
                 primary={true}
-                onClick={this.props.closeModal}
+                onClick={this.handleSubmit}
             />,
         ]
 
@@ -58,9 +75,17 @@ class EntryModal extends React.Component {
                             })}
                         </SelectField>
                     }
+                    {categoryList &&
+                        <TextField
+                            floatingLabelText="Author"
+                            style={styles.formItemStyle}
+                            onChange={(e) => this.setState({ author: e.target.value })}
+                        />
+                    }
                     <TextField
                         floatingLabelText="Title"
                         style={styles.formItemStyle}
+                        onChange={(e) => this.setState({ title: e.target.value })}
                     />
                     <TextField
                         floatingLabelText="Body"
@@ -69,6 +94,7 @@ class EntryModal extends React.Component {
                         rows={2}
                         rowsMax={4}
                         style={styles.formItemStyle}
+                        onChange={(e) => this.setState({ body: e.target.value })}
                     />
                 </div>
             </Dialog>

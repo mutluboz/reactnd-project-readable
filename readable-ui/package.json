@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "enum": "^2.5.0",
+    "guid": "0.0.12",
     "material-ui": "^0.19.4",
     "normalizr": "^3.2.4",
     "react": "^16.1.1",
