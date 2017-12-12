@@ -1,4 +1,4 @@
-import { SHOW, HIDE } from '../Actions/PostModalActions'
+import { SHOW, HIDE, LOAD_POST } from '../Actions/PostModalActions'
 
 function PostModal(state = { isVisible: false }, action) {
     switch (action.type) {
@@ -13,6 +13,10 @@ function PostModal(state = { isVisible: false }, action) {
                 ...state,
                 isVisible: false
             }
+        }
+        case LOAD_POST: {
+            const { post } = action
+            return post;
         }
         default:
             return state

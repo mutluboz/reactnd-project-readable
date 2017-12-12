@@ -4,6 +4,8 @@ import FlatButton from 'material-ui/FlatButton'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import TextField from 'material-ui/TextField'
+import { connect } from 'react-redux'
+import { togglePostModal } from '../../Actions/PostModalActions'
 
 class EntryModal extends React.Component {
 
@@ -18,7 +20,6 @@ class EntryModal extends React.Component {
 
     handleSubmit = () => {
         this.props.onSubmit(
-            false,
             {
                 category: this.state.value,
                 title: this.state.title,
@@ -27,7 +28,7 @@ class EntryModal extends React.Component {
             }
         )
 
-        this.props.closeModal()
+        this.props.close()
     }
 
     render() {
@@ -46,7 +47,7 @@ class EntryModal extends React.Component {
             <FlatButton
                 label="Cancel"
                 primary={true}
-                onClick={f => this.props.closeModal()}
+                onClick={f => this.props.close()}
             />,
             <FlatButton
                 label="Submit"
@@ -59,7 +60,7 @@ class EntryModal extends React.Component {
             <Dialog
                 title="Enter or modify your post"
                 modal={true}
-                open={this.props.isOpen}
+                open={this.props.isVisible}
                 actions={actions}
             >
                 <div className="v-flex-container" style={styles.flexContainerStyle}>
@@ -102,4 +103,20 @@ class EntryModal extends React.Component {
     }
 }
 
-export default EntryModal
+function mapStateToProps({ PostModal }) {
+    return {
+        isVisible: PostModal.isVisible,
+        post: PostModal
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        close: () => dispatch(togglePostModal(false))
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EntryModal)

@@ -28,14 +28,13 @@ class CategoryList extends React.Component {
 
     shouldComponentUpdate(nextProps) {
         //prevent unnecessary renders
-        return nextProps.posts.length !== this.props.posts.length ||
-            nextProps.isPostModalOpen !== this.props.isPostModalOpen;
+        return nextProps.posts.length !== this.props.posts.length
     }
 
     filterByCategory = (posts, category) => posts.filter(post => post && post.category === category)
 
     render() {
-        const { posts, togglePostModal } = this.props;
+        const { posts } = this.props;
 
         return (
             <div>
@@ -47,23 +46,20 @@ class CategoryList extends React.Component {
                         />
                     })}
 
-                <FloatingActionBtn onClick={f => togglePostModal(true)} />
+                <FloatingActionBtn onClick={f => this.props.openEntryModal()} />
                 <EntryModal
-                    isOpen={this.props.isPostModalOpen}
-                    closeModal={f => togglePostModal(false)}
                     categoryList={this.state.categories}
-                    onSubmit={this.props.addOrUpdatePost}
+                    onSubmit={this.props.addPost}
                 />
             </div>
         )
     }
 }
 
-function mapStateToProps({ PostData, PostModal }) {
+function mapStateToProps({ PostData }) {
     return {
         //denormalize posts for filtering
-        posts: PostData ? Object.keys(PostData).map(val => PostData[val]) : [],
-        isPostModalOpen: PostModal.isVisible
+        posts: PostData ? Object.keys(PostData).map(val => PostData[val]) : []
     }
 }
 
@@ -71,8 +67,8 @@ function mapStateToProps({ PostData, PostModal }) {
 function mapDispatchToProps(dispatch) {
     return {
         getPosts: () => dispatch(fetchPostsAsync()),
-        addOrUpdatePost: (isUpdating, post) => dispatch(addOrUpdatePostAsync(isUpdating, post)),
-        togglePostModal: (show) => dispatch(togglePostModal(show))
+        addPost: (post) => dispatch(addOrUpdatePostAsync(false, post)),
+        openEntryModal: () => dispatch(togglePostModal(true))
     }
 }
 
