@@ -6,33 +6,11 @@ import MenuItem from 'material-ui/MenuItem'
 import TextField from 'material-ui/TextField'
 import { connect } from 'react-redux'
 import { togglePostModal } from '../../Actions/PostModalActions'
+import { Field, reduxForm } from 'redux-form'
 
 class EntryModal extends React.Component {
-
-    state = {
-        categoryValue: null,
-        body: null,
-        title: null,
-        author: null
-    };
-
-    handleChange = (event, index, value) => this.setState({ value });
-
-    handleSubmit = () => {
-        this.props.onSubmit(
-            {
-                category: this.state.value,
-                title: this.state.title,
-                body: this.state.body,
-                author: this.state.author
-            }
-        )
-
-        this.props.close()
-    }
-
     render() {
-        const { categoryList } = this.props
+        const { categoryList, handleSubmit } = this.props
 
         const styles = {
             formItemStyle: {
@@ -40,65 +18,97 @@ class EntryModal extends React.Component {
             },
             flexContainerStyle: {
                 alignItems: 'center'
+            },
+            buttonContainerStyle: {
+                alignItems: 'flex-end',
+                display: 'flex'
             }
         }
 
-        const actions = [
-            <FlatButton
-                label="Cancel"
-                primary={true}
-                onClick={f => this.props.close()}
-            />,
-            <FlatButton
-                label="Submit"
-                primary={true}
-                onClick={this.handleSubmit}
-            />,
-        ]
+        const renderTextField = ({
+            input,
+            label,
+            meta: { touched, error },
+            ...custom
+          }) => (
+                <TextField
+                    hintText={label}
+                    floatingLabelText={label}
+                    errorText={touched && error}
+                    {...input}
+                    {...custom}
+                />
+            )
+
+        const renderSelectField = ({
+            input,
+            label,
+            meta: { touched, error },
+            children,
+            ...custom
+              }) => (
+                <SelectField
+                    floatingLabelText={label}
+                    errorText={touched && error}
+                    {...input}
+                    onChange={(event, index, value) => input.onChange(value)}
+                    children={children}
+                    {...custom}
+                />
+            )
 
         return (
             <Dialog
                 title="Enter or modify your post"
                 modal={true}
                 open={this.props.isVisible}
-                actions={actions}
             >
-                <div className="v-flex-container" style={styles.flexContainerStyle}>
-                    {categoryList &&
-                        <SelectField
-                            value={this.state.value}
-                            floatingLabelText="Category"
-                            onChange={this.handleChange}
+                <form onSubmit={handleSubmit}>
+                    <div className="v-flex-container" style={styles.flexContainerStyle}>
+                        {categoryList &&
+                            <Field
+                                name="category"
+                                component={renderSelectField}
+                                label="Category"
+                                style={styles.formItemStyle}
+                            >
+                                {categoryList.map(cat => (
+                                    <MenuItem key={cat.name} value={cat.name} primaryText={cat.name} />
+                                ))}
+                            </Field>
+                        }
+                        {categoryList &&
+                            <Field name="author" component={renderTextField} label="Author" style={styles.formItemStyle} />
+                        }
+
+                        <Field name="title" id="title" component={renderTextField} label="Title" style={styles.formItemStyle} />
+
+                        <Field
+                            name="body"
+                            component={renderTextField}
+                            label="Body"
+                            multiLine={true}
+                            rows={2}
+                            rowsMax={4}
                             style={styles.formItemStyle}
-                        >
-                            {categoryList.map(cat => {
-                                return <MenuItem key={cat.name} value={cat.name} primaryText={cat.name} />
-                            })}
-                        </SelectField>
-                    }
-                    {categoryList &&
-                        <TextField
-                            floatingLabelText="Author"
-                            style={styles.formItemStyle}
-                            onChange={(e) => this.setState({ author: e.target.value })}
                         />
-                    }
-                    <TextField
-                        floatingLabelText="Title"
-                        style={styles.formItemStyle}
-                        onChange={(e) => this.setState({ title: e.target.value })}
-                    />
-                    <TextField
-                        floatingLabelText="Body"
-                        hintText="Enter your post here!"
-                        multiLine={true}
-                        rows={2}
-                        rowsMax={4}
-                        style={styles.formItemStyle}
-                        onChange={(e) => this.setState({ body: e.target.value })}
-                    />
-                </div>
+
+                        <div style={styles.buttonContainerStyle}>
+                            <FlatButton
+                                label="Cancel"
+                                primary={true}
+                                onClick={f => this.props.close()}
+                            />
+                            <FlatButton
+                                label="Submit"
+                                primary={true}
+                                type="submit"
+                            />
+                        </div>
+                    </div>
+                </form>
             </Dialog>
+
         )
     }
 }
@@ -106,7 +116,7 @@ class EntryModal extends React.Component {
 function mapStateToProps({ PostModal }) {
     return {
         isVisible: PostModal.isVisible,
-        post: PostModal
+        initialValues: PostModal.isUpdating ? PostModal : []
     }
 }
 
@@ -116,7 +126,14 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(
+EntryModal = reduxForm({
+    form: 'postForm',
+    enableReinitialize: true
+})(EntryModal)
+
+EntryModal = connect(
     mapStateToProps,
     mapDispatchToProps
 )(EntryModal)
+
+export default EntryModal

@@ -1,5 +1,7 @@
 import { getPosts, updatePostScore, addOrUpdatePost, deletePost } from '../Utils/ReadableApi'
 import { normalize, schema } from 'normalizr'
+import { reset } from 'redux-form';
+import { togglePostModal } from '../Actions/PostModalActions'
 
 export const FETCH_POSTS = 'FETCH_POSTS'
 export const UPDATE_POST_SCORE = 'UPDATE_POST_SCORE'
@@ -54,6 +56,9 @@ export function addOrUpdatePostAsync(isUpdating, post) {
             voteScore: 1
           }
         })
+    }).then(() => {
+      dispatch(reset('postForm'))
+      dispatch(togglePostModal(false))
     })
   }
 }

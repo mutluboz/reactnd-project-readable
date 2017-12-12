@@ -49,7 +49,7 @@ class CategoryList extends React.Component {
                 <FloatingActionBtn onClick={f => this.props.openEntryModal()} />
                 <EntryModal
                     categoryList={this.state.categories}
-                    onSubmit={this.props.addPost}
+                    onSubmit={values => this.props.addPost(values)}
                 />
             </div>
         )

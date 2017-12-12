@@ -1,4 +1,4 @@
-import Guid from 'guid'
+import uuid from 'uuid'
 
 const apiUrl = 'http://localhost:3001'
 
@@ -60,7 +60,7 @@ export const addOrUpdatePost = (isUpdating, post) =>
                 body: post.body
             }) :
             JSON.stringify({
-                id: Guid.create(),
+                id: uuid.v4(),
                 timestamp: Date.now,
                 title: post.title,
                 body: post.body,
