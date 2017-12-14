@@ -9,6 +9,24 @@ import { togglePostModal } from '../../Actions/PostModalActions'
 import { Field, reduxForm } from 'redux-form'
 import { reset } from 'redux-form';
 
+const validate = values => {
+    const errors = {}
+    const requiredFields = [
+        'category',
+        'author',
+        'title',
+        'body'
+    ]
+
+    requiredFields.forEach(field => {
+        if (!values[field]) {
+            errors[field] = 'Required'
+        }
+    })
+
+    return errors
+}
+
 class EntryModal extends React.Component {
 
     handleClose = () => {
@@ -135,6 +153,7 @@ function mapDispatchToProps(dispatch) {
 
 EntryModal = reduxForm({
     form: 'postForm',
+    validate,
     enableReinitialize: true
 
 })(EntryModal)
