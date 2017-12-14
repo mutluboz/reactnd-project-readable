@@ -17,6 +17,8 @@ class CategoryList extends React.Component {
     }
 
     componentDidMount() {
+        //ensure that pop up is closed
+        this.props.closeEntryModal()
         //fetch categories
         getCategories().then(categories => {
             this.setState({ categories })
@@ -28,8 +30,8 @@ class CategoryList extends React.Component {
 
     shouldComponentUpdate(nextProps) {
         //prevent unnecessary renders
-        return nextProps.posts.length !== this.props.posts.length
-        //return true
+        //return nextProps.posts.length !== this.props.posts.length
+        return true
     }
 
     filterByCategory = (posts, category) => posts.filter(post => post && post.category === category)
@@ -71,7 +73,8 @@ function mapDispatchToProps(dispatch) {
     return {
         getPosts: () => dispatch(fetchPostsAsync()),
         addOrUpdatePost: (post) => dispatch(addOrUpdatePostAsync(post.id ? true : false, post)),
-        openEntryModal: () => dispatch(togglePostModal(true))
+        openEntryModal: () => dispatch(togglePostModal(true)),
+        closeEntryModal: () => dispatch(togglePostModal(false))
     }
 }
 

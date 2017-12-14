@@ -1,4 +1,4 @@
-import { getPosts, updatePostScore, addOrUpdatePost, deletePost } from '../Utils/ReadableApi'
+import { getPosts, updatePostScore, addOrUpdatePost, deletePost, getPostByID } from '../Utils/ReadableApi'
 import { normalize, schema } from 'normalizr'
 import { reset } from 'redux-form';
 import { togglePostModal } from '../Actions/PostModalActions'
@@ -9,6 +9,7 @@ export const ADD_POST = 'ADD_POST'
 export const MODIFY_POST = 'MODIFY_POST'
 export const DELETE_POST = 'DELETE_POST'
 
+
 export function fetchPostsAsync() {
   return (dispatch) => {
     getPosts().then((posts) => {
@@ -16,6 +17,23 @@ export function fetchPostsAsync() {
       const post = new schema.Entity('posts');
 
       const normalizedPosts = normalize(posts, [post]);
+
+      dispatch({
+        type: FETCH_POSTS,
+        posts: normalizedPosts.entities.posts
+      })
+    })
+  }
+}
+
+
+export function getPostByIdAsync(id) {
+  return (dispatch) => {
+    getPostByID(id).then((posts) => {
+
+      const post = new schema.Entity('posts');
+
+      const normalizedPosts = normalize(posts, post);
 
       dispatch({
         type: FETCH_POSTS,

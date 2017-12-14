@@ -8,22 +8,41 @@ import IconButton from 'material-ui/IconButton'
 import { Link } from 'react-router-dom'
 import { PostTypes } from '../constants'
 import { connect } from 'react-redux'
-import { votePostAsync, deletePostAsync } from '../Actions/PostActions'
+import { votePostAsync, deletePostAsync, getPostByIdAsync } from '../Actions/PostActions'
 import { loadPost } from '../Actions/PostModalActions'
 
 class Post extends React.Component {
+
+    componentDidMount() {
+
+        if (!this.props.post)
+            //fetch post from api, is state doesn't contain this spesific post
+            //e.c. users can directly call /posts/:posId url
+            this.props.getPost(this.props.id);
+    }
+
     render() {
         const { post, postType, votePost } = this.props;
+
+        let titleSection = null;
+        if (postType === PostTypes.list)
+            titleSection = post && <Link to={`/posts/${post.id}`} className="no-text-decoration">
+                <CardTitle
+                    title={post.title}
+                    subtitle={`submitted 2 days ago by ${post.author} - ${post.commentCount} comments`}
+                />
+            </Link>
+        else
+            titleSection = post && <CardTitle
+                title={post.title}
+                subtitle={`submitted 2 days ago by ${post.author} - ${post.commentCount} comments`}
+            />
+
         return (
             <div className={postType === PostTypes.comment ? "post-comment" : "post-master"}>
                 {post && <Card>
                     <div className="flex-container justify-content-space-between">
-                        <Link to='/posts' className="no-text-decoration">
-                            <CardTitle
-                                title={post.title}
-                                subtitle={`submitted 2 days ago by ${post.author} - ${post.commentCount} comments`}
-                            />
-                        </Link>
+                        {titleSection}
                         <div>
                             <IconButton>
                                 <EditIcon onClick={f => this.props.loadEditForm(post)} />
@@ -57,7 +76,8 @@ function mapDispatchToProps(dispatch) {
     return {
         votePost: (id, isUpvote, currentScore) => dispatch(votePostAsync(id, isUpvote, currentScore)),
         deletePost: (id) => dispatch(deletePostAsync(id)),
-        loadEditForm: (post) => dispatch(loadPost(post))
+        loadEditForm: (post) => dispatch(loadPost(post)),
+        getPost: (id) => dispatch(getPostByIdAsync(id))
     }
 }
 

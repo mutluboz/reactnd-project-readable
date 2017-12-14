@@ -18,7 +18,7 @@ class App extends Component {
             </header>
             <Switch>
               <Route exact path='/' component={CategoryList} />
-              <Route path='/posts' component={PostDetails} />
+              <Route path='/posts/:postID' component={PostDetails} />
             </Switch>
           </div>
         </MuiThemeProvider>
