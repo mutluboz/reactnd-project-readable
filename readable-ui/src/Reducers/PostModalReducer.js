@@ -1,6 +1,8 @@
 import { SHOW, HIDE, LOAD_POST } from '../Actions/PostModalActions'
 
-function PostModal(state = { isVisible: false }, action) {
+const initialModalState = { isVisible: false }
+
+function PostModal(state = initialModalState, action) {
     switch (action.type) {
         case SHOW: {
             return {
@@ -9,10 +11,7 @@ function PostModal(state = { isVisible: false }, action) {
             }
         }
         case HIDE: {
-            return {
-                ...state,
-                isVisible: false
-            }
+            return initialModalState
         }
         case LOAD_POST: {
             const { post } = action

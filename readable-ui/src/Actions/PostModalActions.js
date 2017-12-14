@@ -1,5 +1,3 @@
-import { reset } from 'redux-form';
-
 export const SHOW = 'SHOW'
 export const HIDE = 'HIDE'
 export const LOAD_POST = 'LOAD_POST'
@@ -8,7 +6,6 @@ export const CLEAR_FORM = 'CLEAR_FORM'
 
 export const togglePostModal = (show) => {
     return (dispatch) => {
-        dispatch(reset('postForm'))
         dispatch(show ? { type: SHOW } : { type: HIDE })
     }
 }
@@ -19,8 +16,7 @@ export const loadPost = (post) => {
             type: LOAD_POST,
             post: {
                 ...post,
-                isVisible: true,
-                isUpdating: true
+                isVisible: true
             }
         })
     }

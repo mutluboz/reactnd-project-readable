@@ -4,7 +4,7 @@ const apiUrl = 'http://localhost:3001'
 
 
 //static auth header
-const token = 'fc49dd4f-bfce-4f01-8f08-dfb3b17bdd42';
+const token = '1234';
 
 const headers = {
     'Accept': 'application/json',
@@ -47,7 +47,7 @@ export const updateCommentScore = (id, isUpVote) =>
     }).then(res => res.json())
 
 export const addOrUpdatePost = (isUpdating, post) =>
-    fetch(`${apiUrl}/posts/`, {
+    fetch(`${apiUrl}/posts/${(isUpdating ? post.id : '')}`, {
         method: isUpdating ? 'PUT' : 'POST',
         headers: {
             ...headers,

@@ -7,8 +7,47 @@ import TextField from 'material-ui/TextField'
 import { connect } from 'react-redux'
 import { togglePostModal } from '../../Actions/PostModalActions'
 import { Field, reduxForm } from 'redux-form'
+import { reset } from 'redux-form';
 
 class EntryModal extends React.Component {
+
+    handleClose = () => {
+        this.props.close()
+        this.props.reset()
+    }
+
+    renderTextField = ({
+        input,
+        label,
+        meta: { touched, error },
+        ...custom
+      }) => (
+            <TextField
+                hintText={label}
+                floatingLabelText={label}
+                errorText={touched && error}
+                {...input}
+                {...custom}
+            />
+        )
+
+    renderSelectField = ({
+            input,
+        label,
+        meta: { touched, error },
+        children,
+        ...custom
+              }) => (
+            <SelectField
+                floatingLabelText={label}
+                errorText={touched && error}
+                {...input}
+                onChange={(event, index, value) => input.onChange(value)}
+                children={children}
+                {...custom}
+            />
+        )
+
     render() {
         const { categoryList, handleSubmit } = this.props
 
@@ -19,43 +58,10 @@ class EntryModal extends React.Component {
             flexContainerStyle: {
                 alignItems: 'center'
             },
-            buttonContainerStyle: {
-                alignItems: 'flex-end',
-                display: 'flex'
+            hiddenStyle: {
+                display: 'none'
             }
         }
-
-        const renderTextField = ({
-            input,
-            label,
-            meta: { touched, error },
-            ...custom
-          }) => (
-                <TextField
-                    hintText={label}
-                    floatingLabelText={label}
-                    errorText={touched && error}
-                    {...input}
-                    {...custom}
-                />
-            )
-
-        const renderSelectField = ({
-            input,
-            label,
-            meta: { touched, error },
-            children,
-            ...custom
-              }) => (
-                <SelectField
-                    floatingLabelText={label}
-                    errorText={touched && error}
-                    {...input}
-                    onChange={(event, index, value) => input.onChange(value)}
-                    children={children}
-                    {...custom}
-                />
-            )
 
         return (
             <Dialog
@@ -68,7 +74,7 @@ class EntryModal extends React.Component {
                         {categoryList &&
                             <Field
                                 name="category"
-                                component={renderSelectField}
+                                component={this.renderSelectField}
                                 label="Category"
                                 style={styles.formItemStyle}
                             >
@@ -78,14 +84,14 @@ class EntryModal extends React.Component {
                             </Field>
                         }
                         {categoryList &&
-                            <Field name="author" component={renderTextField} label="Author" style={styles.formItemStyle} />
+                            <Field name="author" component={this.renderTextField} label="Author" style={styles.formItemStyle} />
                         }
 
-                        <Field name="title" id="title" component={renderTextField} label="Title" style={styles.formItemStyle} />
+                        <Field name="title" id="title" component={this.renderTextField} label="Title" style={styles.formItemStyle} />
 
                         <Field
                             name="body"
-                            component={renderTextField}
+                            component={this.renderTextField}
                             label="Body"
                             multiLine={true}
                             rows={2}
@@ -93,11 +99,11 @@ class EntryModal extends React.Component {
                             style={styles.formItemStyle}
                         />
 
-                        <div style={styles.buttonContainerStyle}>
+                        <div>
                             <FlatButton
                                 label="Cancel"
                                 primary={true}
-                                onClick={f => this.props.close()}
+                                onClick={this.handleClose}
                             />
                             <FlatButton
                                 label="Submit"
@@ -116,19 +122,21 @@ class EntryModal extends React.Component {
 function mapStateToProps({ PostModal }) {
     return {
         isVisible: PostModal.isVisible,
-        initialValues: PostModal.isUpdating ? PostModal : []
+        initialValues: PostModal
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        close: () => dispatch(togglePostModal(false))
+        close: () => dispatch(togglePostModal(false)),
+        reset: () => dispatch(reset('postForm'))
     }
 }
 
 EntryModal = reduxForm({
     form: 'postForm',
     enableReinitialize: true
+
 })(EntryModal)
 
 EntryModal = connect(

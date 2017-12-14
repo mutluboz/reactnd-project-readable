@@ -29,6 +29,7 @@ class CategoryList extends React.Component {
     shouldComponentUpdate(nextProps) {
         //prevent unnecessary renders
         return nextProps.posts.length !== this.props.posts.length
+        //return true
     }
 
     filterByCategory = (posts, category) => posts.filter(post => post && post.category === category)
@@ -49,7 +50,9 @@ class CategoryList extends React.Component {
                 <FloatingActionBtn onClick={f => this.props.openEntryModal()} />
                 <EntryModal
                     categoryList={this.state.categories}
-                    onSubmit={values => this.props.addPost(values)}
+                    onSubmit={
+                        values => this.props.addOrUpdatePost(values)
+                    }
                 />
             </div>
         )
@@ -67,7 +70,7 @@ function mapStateToProps({ PostData }) {
 function mapDispatchToProps(dispatch) {
     return {
         getPosts: () => dispatch(fetchPostsAsync()),
-        addPost: (post) => dispatch(addOrUpdatePostAsync(false, post)),
+        addOrUpdatePost: (post) => dispatch(addOrUpdatePostAsync(post.id ? true : false, post)),
         openEntryModal: () => dispatch(togglePostModal(true))
     }
 }

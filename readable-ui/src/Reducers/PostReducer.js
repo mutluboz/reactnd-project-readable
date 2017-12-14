@@ -32,7 +32,11 @@ function PostData(state = {}, action) {
 
         }
         case MODIFY_POST: {
-            return {}
+            const { post } = action
+            return {
+                ...state,
+                [post.id]: post
+            }
         }
         case DELETE_POST: {
             const { postId } = action
