@@ -84,3 +84,25 @@ export const deleteComment = id =>
     method: "DELETE",
     headers
   }).then(res => res.json());
+
+export const addOrUpdateComment = (isUpdating, comment) =>
+  fetch(`${apiUrl}/comments/${isUpdating ? comment.id : ""}`, {
+    method: isUpdating ? "PUT" : "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: isUpdating
+      ? JSON.stringify({
+          id: comment.id,
+          timestamp: Date.now,
+          body: comment.body
+        })
+      : JSON.stringify({
+          id: uuid.v4(),
+          timestamp: Date.now,
+          body: comment.body,
+          author: comment.author,
+          parentId: comment.parentId
+        })
+  }).then(res => res.json());

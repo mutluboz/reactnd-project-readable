@@ -75,7 +75,7 @@ class Post extends React.Component {
                   <DeleteIcon
                     onClick={f =>
                       postType === PostTypes.comment
-                        ? this.props.deleteComment(post.id)
+                        ? this.props.deleteComment(post)
                         : this.props.deletePost(post.id)
                     }
                   />
@@ -108,14 +108,22 @@ function mapStateToProps({ PostData, CommentData }, ownProps) {
   else return { post: PostData[ownProps.id] };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     votePost: (id, isUpvote, currentScore) =>
       dispatch(votePostAsync(id, isUpvote, currentScore)),
     voteComment: (id, isUpvote, currentScore) =>
       dispatch(voteCommentAsync(id, isUpvote, currentScore)),
     deletePost: id => dispatch(deletePostAsync(id)),
-    loadEditForm: post => dispatch(loadPost(post)),
+    loadEditForm: post =>
+      dispatch(
+        loadPost(
+          post,
+          ownProps.postType === PostTypes.comment
+            ? PostTypes.comment
+            : PostTypes.post
+        )
+      ),
     getPost: id => dispatch(getPostByIdAsync(id)),
     deleteComment: id => dispatch(deleteCommentAsync(id))
   };

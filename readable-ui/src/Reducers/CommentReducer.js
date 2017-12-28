@@ -1,7 +1,9 @@
 import {
   FETCH_COMMENTS,
   UPDATE_COMMENT_SCORE,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  MODIFY_COMMENT,
+  ADD_COMMENT
 } from "../Actions/CommentActions";
 
 //this code is not optimal. unlike post data,
@@ -27,6 +29,18 @@ function CommentData(state = [], action) {
       const { id } = action;
 
       return state.filter(c => c.id !== id);
+    }
+    case ADD_COMMENT: {
+      return state.concat(action.comment);
+    }
+    case MODIFY_COMMENT: {
+      const updatedComments = state.map(comment => {
+        if (comment.id === action.comment.id) {
+          return action.comment;
+        }
+        return comment;
+      });
+      return updatedComments;
     }
     default:
       return state;
