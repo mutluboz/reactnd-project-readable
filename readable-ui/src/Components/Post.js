@@ -9,20 +9,23 @@ import { Link } from 'react-router-dom'
 import { PostTypes } from '../constants'
 import { connect } from 'react-redux'
 import { votePostAsync, deletePostAsync, getPostByIdAsync } from '../Actions/PostActions'
+import { voteCommentAsync } from '../Actions/CommentActions'
 import { loadPost } from '../Actions/PostModalActions'
+
 
 class Post extends React.Component {
 
     componentDidMount() {
 
-        if (!this.props.post)
+        if (!this.props.post && this.props.postType === PostTypes.master) {
             //fetch post from api, is state doesn't contain this spesific post
             //e.c. users can directly call /posts/:posId url
             this.props.getPost(this.props.id);
+        }
     }
 
     render() {
-        const { post, postType, votePost } = this.props;
+        const { post, postType, votePost, voteComment } = this.props;
 
         let titleSection = null;
         if (postType === PostTypes.list)
@@ -54,7 +57,11 @@ class Post extends React.Component {
                     </div>
                     <Divider />
                     <div className="flex-container">
-                        <VoteBar score={post.voteScore} id={post.id} onVoteClick={votePost} />
+                        <VoteBar
+                            score={post.voteScore}
+                            id={post.id}
+                            onVoteClick={post.postType === PostTypes.comment ? votePost : voteComment}
+                        />
                         <div className="post-body">
                             <CardText>{post.body}</CardText>
                         </div>
@@ -66,15 +73,17 @@ class Post extends React.Component {
     }
 }
 
-function mapStateToProps({ PostData }, ownProps) {
-    return {
-        post: PostData[ownProps.id]
-    }
+function mapStateToProps({ PostData, CommentData }, ownProps) {
+    if (ownProps.postType === PostTypes.master)
+        return { post: PostData[ownProps.id] }
+    else if (ownProps.postType === PostTypes.comment)
+        return { post: CommentData.find(c => c.id === ownProps.id) }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         votePost: (id, isUpvote, currentScore) => dispatch(votePostAsync(id, isUpvote, currentScore)),
+        voteComment: (id, isUpvote, currentScore) => dispatch(voteCommentAsync(id, isUpvote, currentScore)),
         deletePost: (id) => dispatch(deletePostAsync(id)),
         loadEditForm: (post) => dispatch(loadPost(post)),
         getPost: (id) => dispatch(getPostByIdAsync(id))
