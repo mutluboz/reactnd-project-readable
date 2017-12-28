@@ -26,7 +26,7 @@ class PostDetails extends React.Component {
     render() {
         const { postID } = this.props.match.params;
         const { comments } = this.props;
-
+        
         return (
             <div>
                 <Post postType={PostTypes.master} id={postID} />

@@ -26,19 +26,24 @@ class Post extends React.Component {
 
     render() {
         const { post, postType, votePost, voteComment } = this.props;
-
         let titleSection = null;
+
+        let commentText = null;
+
+        if (post)
+            commentText = postType === PostTypes.comment ? '' : ` - ${post.commentCount} comments`;
+
         if (postType === PostTypes.list)
             titleSection = post && <Link to={`/posts/${post.id}`} className="no-text-decoration">
                 <CardTitle
                     title={post.title}
-                    subtitle={`submitted 2 days ago by ${post.author} - ${post.commentCount} comments`}
+                    subtitle={`submitted 2 days ago by ${post.author}${commentText}`}
                 />
             </Link>
         else
             titleSection = post && <CardTitle
                 title={post.title}
-                subtitle={`submitted 2 days ago by ${post.author} - ${post.commentCount} comments`}
+                subtitle={`submitted 2 days ago by ${post.author}${commentText}`}
             />
 
         return (
@@ -60,7 +65,7 @@ class Post extends React.Component {
                         <VoteBar
                             score={post.voteScore}
                             id={post.id}
-                            onVoteClick={post.postType === PostTypes.comment ? votePost : voteComment}
+                            onVoteClick={postType === PostTypes.comment ? voteComment : votePost}
                         />
                         <div className="post-body">
                             <CardText>{post.body}</CardText>
@@ -74,10 +79,10 @@ class Post extends React.Component {
 }
 
 function mapStateToProps({ PostData, CommentData }, ownProps) {
-    if (ownProps.postType === PostTypes.master)
-        return { post: PostData[ownProps.id] }
-    else if (ownProps.postType === PostTypes.comment)
+    if (ownProps.postType === PostTypes.comment)
         return { post: CommentData.find(c => c.id === ownProps.id) }
+    else
+        return { post: PostData[ownProps.id] }
 }
 
 function mapDispatchToProps(dispatch) {

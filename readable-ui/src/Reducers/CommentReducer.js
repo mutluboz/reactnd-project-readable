@@ -3,6 +3,8 @@ import {
     UPDATE_COMMENT_SCORE
 } from '../Actions/CommentActions'
 
+//this code is not optimal. unlike post data,
+//i didn't normalize comment data to reduce complexity of code
 function CommentData(state = [], action) {
     switch (action.type) {
         case FETCH_COMMENTS: {
@@ -11,16 +13,14 @@ function CommentData(state = [], action) {
         case UPDATE_COMMENT_SCORE: {
             const { id, isUpvote, currentScore } = action
             const newScore = currentScore + (isUpvote ? 1 : -1);
-            
 
-            console.log(state)
-            return {
-                ...state,
-                [id]: {
-                    ...state[id],
-                    voteScore: newScore
+            const updatedComments = state.map(comment => {
+                if (comment.id === id) {
+                    return { ...comment, voteScore: newScore }
                 }
-            }
+                return comment
+            })
+            return updatedComments
         }
         default:
             return state;
