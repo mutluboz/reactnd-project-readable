@@ -3,7 +3,8 @@ import {
   updatePostScore,
   addOrUpdatePost,
   deletePost,
-  getPostByID
+  getPostByID,
+  getPostsByCategory
 } from "../Utils/ReadableApi";
 import { normalize, schema } from "normalizr";
 import { reset } from "redux-form";
@@ -37,6 +38,21 @@ export function getPostByIdAsync(id) {
       const post = new schema.Entity("posts");
 
       const normalizedPosts = normalize(posts, post);
+
+      dispatch({
+        type: FETCH_POSTS,
+        posts: normalizedPosts.entities.posts
+      });
+    });
+  };
+}
+
+export function fetchPostsByCategoryAsync(category) {
+  return dispatch => {
+    getPostsByCategory(category).then(posts => {
+      const post = new schema.Entity("posts");
+
+      const normalizedPosts = normalize(posts, [post]);
 
       dispatch({
         type: FETCH_POSTS,

@@ -1,33 +1,44 @@
-import React from 'react'
-import AppBar from 'material-ui/AppBar'
-import Post from './Post'
-import SortMenu from './Common/SortMenu'
-import { PostTypes } from '../constants'
+import React from "react";
+import AppBar from "material-ui/AppBar";
+import Post from "./Post";
+import SortMenu from "./Common/SortMenu";
+import { PostTypes } from "../constants";
+import { Link } from "react-router-dom";
 
 const styles = {
-    title: {
-        cursor: 'pointer',
-    },
+  title: {
+    cursor: "pointer"
+  }
 };
 
-const Category = function (props) {
-    return (
-        <div>
-            <AppBar
-                title={<span style={styles.title}>{props.Title}</span>}
-                showMenuIconButton={false}
-                iconElementRight={<SortMenu />}
-            />
+const Category = function(props) {
+  return (
+    <div>
+      <AppBar
+        title={
+          !props.inCategoryView ? (
+            <Link
+              to={`/categories/${props.Title}`}
+              style={
+                ({ textDecoration: "none !important" }, { color: "white" })
+              }
+            >
+              {" "}
+              <span style={styles.title}>{props.Title}</span>
+            </Link>
+          ) : (
+            <span style={styles.title}>{props.Title}</span>
+          )
+        }
+        showMenuIconButton={false}
+        iconElementRight={<SortMenu />}
+      />
 
-            {props.Posts.map((post) => {
-                return <Post
-                    key={post.id}
-                    postType={PostTypes.list}
-                    id={post.id}
-                />
-            })}
-        </div>
-    )
-}
+      {props.Posts.map(post => {
+        return <Post key={post.id} postType={PostTypes.list} id={post.id} />;
+      })}
+    </div>
+  );
+};
 
 export default Category;

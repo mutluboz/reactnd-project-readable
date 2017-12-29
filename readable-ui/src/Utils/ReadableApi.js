@@ -21,6 +21,9 @@ export const getPosts = () =>
 export const getPostByID = id =>
   fetch(`${apiUrl}/posts/${id}`, { headers }).then(res => res.json());
 
+export const getPostsByCategory = category =>
+  fetch(`${apiUrl}/${category}/posts`, { headers }).then(res => res.json());
+
 export const updatePostScore = (id, isUpVote) =>
   fetch(`${apiUrl}/posts/${id}`, {
     method: "POST",

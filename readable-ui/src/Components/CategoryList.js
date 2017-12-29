@@ -46,6 +46,7 @@ class CategoryList extends React.Component {
                 key={c.name}
                 Title={c.name}
                 Posts={this.filterByCategory(posts, c.name)}
+                DisplayLinkToCatView={true}
               />
             );
           })}

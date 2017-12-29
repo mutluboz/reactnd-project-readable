@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import logo from '../logo.svg';
-import './App.css';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import PostDetails from './PostDetails'
-import CategoryList from './CategoryList'
-import { Route, Switch } from 'react-router-dom'
+import React, { Component } from "react";
+import logo from "../logo.svg";
+import "./App.css";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import PostDetails from "./PostDetails";
+import CategoryList from "./CategoryList";
+import CategoryView from "./CategoryView";
+import { Route, Switch } from "react-router-dom";
 
 class App extends Component {
   render() {
@@ -17,8 +18,9 @@ class App extends Component {
               <h1 className="App-title">Welcome to React</h1>
             </header>
             <Switch>
-              <Route exact path='/' component={CategoryList} />
-              <Route path='/posts/:postID' component={PostDetails} />
+              <Route exact path="/" component={CategoryList} />
+              <Route path="/posts/:postID" component={PostDetails} />
+              <Route path="/categories/:category" component={CategoryView} />
             </Switch>
           </div>
         </MuiThemeProvider>

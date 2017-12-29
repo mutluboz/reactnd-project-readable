@@ -82,24 +82,22 @@ class EntryModal extends React.Component {
         >
           <form onSubmit={handleSubmit}>
             <div className="v-flex-container" style={styles.flexContainerStyle}>
-              {/*show category dropdown for new post*/}
-              {entryType === PostTypes.post &&
-                !initialValues.hasOwnProperty("id") && (
-                  <Field
-                    name="category"
-                    component={this.renderSelectField}
-                    label="Category"
-                    style={styles.formItemStyle}
-                  >
-                    {categoryList.map(cat => (
-                      <MenuItem
-                        key={cat.name}
-                        value={cat.name}
-                        primaryText={cat.name}
-                      />
-                    ))}
-                  </Field>
-                )}
+              {categoryList && (
+                <Field
+                  name="category"
+                  component={this.renderSelectField}
+                  label="Category"
+                  style={styles.formItemStyle}
+                >
+                  {categoryList.map(cat => (
+                    <MenuItem
+                      key={cat.name}
+                      value={cat.name}
+                      primaryText={cat.name}
+                    />
+                  ))}
+                </Field>
+              )}
 
               {/*show author field for new records*/}
               {!initialValues.hasOwnProperty("id") && (
