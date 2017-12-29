@@ -50,7 +50,7 @@ export function getPostByIdAsync(id) {
 export function fetchPostsByCategoryAsync(category) {
   return dispatch => {
     getPostsByCategory(category).then(posts => {
-      if (posts.lenth > 0) {
+      if (posts.length > 0) {
         const post = new schema.Entity("posts");
 
         const normalizedPosts = normalize(posts, [post]);
