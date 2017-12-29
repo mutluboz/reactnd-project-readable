@@ -6,8 +6,8 @@ import {
   ADD_COMMENT
 } from "../Actions/CommentActions";
 
-//this code is not optimal. unlike post data,
-//i didn't normalize comment data to reduce complexity of code
+//this code is not optimal
+//unlike post data, i didn't normalize comment data in order to reduce code complexity
 function CommentData(state = [], action) {
   switch (action.type) {
     case FETCH_COMMENTS: {

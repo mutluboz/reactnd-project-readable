@@ -18,6 +18,7 @@ import {
   deleteCommentAsync
 } from "../Actions/CommentActions";
 import { loadPost } from "../Actions/PostModalActions";
+import { TimeAgo } from "../Utils/Helpers";
 
 class Post extends React.Component {
   componentDidMount() {
@@ -45,7 +46,7 @@ class Post extends React.Component {
         <Link to={`/posts/${post.id}`} className="no-text-decoration">
           <CardTitle
             title={post.title}
-            subtitle={`submitted 2 days ago by ${post.author}${commentText}`}
+            subtitle={`submitted ${TimeAgo(post.timestamp)} by ${post.author}${commentText}`}
           />
         </Link>
       );
@@ -53,7 +54,7 @@ class Post extends React.Component {
       titleSection = post && (
         <CardTitle
           title={post.title}
-          subtitle={`submitted 2 days ago by ${post.author}${commentText}`}
+          subtitle={`submitted ${TimeAgo(post.timestamp)} by ${post.author}${commentText}`}
         />
       );
 

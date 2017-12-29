@@ -60,7 +60,7 @@ export const addOrUpdatePost = (isUpdating, post) =>
         })
       : JSON.stringify({
           id: uuid.v4(),
-          timestamp: Date.now,
+          timestamp: Date.now(),
           title: post.title,
           body: post.body,
           author: post.author,
@@ -95,12 +95,12 @@ export const addOrUpdateComment = (isUpdating, comment) =>
     body: isUpdating
       ? JSON.stringify({
           id: comment.id,
-          timestamp: Date.now,
+          timestamp: Date.now(),
           body: comment.body
         })
       : JSON.stringify({
           id: uuid.v4(),
-          timestamp: Date.now,
+          timestamp: Date.now(),
           body: comment.body,
           author: comment.author,
           parentId: comment.parentId
