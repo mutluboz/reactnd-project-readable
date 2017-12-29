@@ -50,14 +50,20 @@ export function getPostByIdAsync(id) {
 export function fetchPostsByCategoryAsync(category) {
   return dispatch => {
     getPostsByCategory(category).then(posts => {
-      const post = new schema.Entity("posts");
+      if (posts.lenth > 0) {
+        const post = new schema.Entity("posts");
 
-      const normalizedPosts = normalize(posts, [post]);
+        const normalizedPosts = normalize(posts, [post]);
 
-      dispatch({
-        type: FETCH_POSTS,
-        posts: normalizedPosts.entities.posts
-      });
+        dispatch({
+          type: FETCH_POSTS,
+          posts: normalizedPosts.entities.posts
+        });
+      } else
+        dispatch({
+          type: FETCH_POSTS,
+          posts: []
+        });
     });
   };
 }

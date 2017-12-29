@@ -4,6 +4,7 @@ import Post from "./Post";
 import SortMenu from "./Common/SortMenu";
 import { PostTypes } from "../constants";
 import { Link } from "react-router-dom";
+import NoData from "./Common/NoData";
 
 const styles = {
   title: {
@@ -33,10 +34,13 @@ const Category = function(props) {
         showMenuIconButton={false}
         iconElementRight={<SortMenu />}
       />
-
-      {props.Posts.map(post => {
-        return <Post key={post.id} postType={PostTypes.list} id={post.id} />;
-      })}
+      {props.Posts.length > 0 ? (
+        props.Posts.map(post => (
+          <Post key={post.id} postType={PostTypes.list} id={post.id} />
+        ))
+      ) : (
+        <NoData />
+      )}
     </div>
   );
 };

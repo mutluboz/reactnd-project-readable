@@ -12,6 +12,7 @@ import {
 } from "../Actions/CommentActions";
 import { togglePostModal } from "../Actions/PostModalActions";
 import { connect } from "react-redux";
+import NoData from "./Common/NoData";
 
 const style = {
   margin: "2px 9px 2px 10px"
@@ -39,10 +40,18 @@ class PostDetails extends React.Component {
             showMenuIconButton={false}
             iconElementRight={<SortMenu />}
           />
-          {comments &&
+          {/* {comments &&
             comments.map((c, i) => (
               <Post key={i} postType={PostTypes.comment} id={c.id} />
-            ))}
+            ))} */}
+
+          {comments.length > 0 ? (
+            comments.map((c, i) => (
+              <Post key={i} postType={PostTypes.comment} id={c.id} />
+            ))
+          ) : (
+            <NoData isComment={true} />
+          )}
         </div>
 
         <FloatingActionBtn onClick={f => this.props.openEntryModal()} />
