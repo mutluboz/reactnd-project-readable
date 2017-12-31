@@ -1,3 +1,5 @@
+import { SortBy } from "../constants";
+
 export const GroupBy = (xs, key) => {
   return xs.reduce(function(rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -35,5 +37,40 @@ export const TimeAgo = previous => {
     return "approximately " + Math.round(elapsed / msPerMonth) + " months ago";
   } else {
     return "approximately " + Math.round(elapsed / msPerYear) + " years ago";
+  }
+};
+
+const compareVoteScores = (entry1, entry2) => {
+  const voteScore1 = entry1.voteScore;
+  const voteScore2 = entry2.voteScore;
+
+  let comparison = 0;
+  if (voteScore1 > voteScore2) {
+    comparison = 1;
+  } else if (voteScore1 < voteScore2) {
+    comparison = -1;
+  }
+  return -1 * comparison;
+};
+
+const compareTimeStamps = (entry1, entry2) => {
+  const timestamp1 = entry1.timestamp;
+  const timestamp2 = entry2.timestamp;
+
+  let comparison = 0;
+  if (timestamp1 > timestamp2) {
+    comparison = 1;
+  } else if (timestamp1 < timestamp2) {
+    comparison = -1;
+  }
+  return -1 * comparison;
+};
+
+export const SortEntryArray = (array, sortBy) => {
+  if (!sortBy) return array;
+  else {
+    if (sortBy === SortBy.voteScore) return [...array].sort(compareVoteScores);
+    else if (sortBy === SortBy.timestamp)
+      return [...array].sort(compareTimeStamps);
   }
 };

@@ -13,6 +13,8 @@ import {
 import { togglePostModal } from "../Actions/PostModalActions";
 import { connect } from "react-redux";
 import NoData from "./Common/NoData";
+import { SortEntryArray } from "../Utils/Helpers";
+import { sort } from "../Actions/SortActions";
 
 const style = {
   margin: "2px 9px 2px 10px"
@@ -28,7 +30,7 @@ class PostDetails extends React.Component {
 
   render() {
     const { postID } = this.props.match.params;
-    const { comments } = this.props;
+    const { comments, sortBy, handleSortMethodChange } = this.props;
 
     return (
       <div>
@@ -38,15 +40,13 @@ class PostDetails extends React.Component {
           <AppBar
             title="Comments"
             showMenuIconButton={false}
-            iconElementRight={<SortMenu />}
+            iconElementRight={
+              <SortMenu onSortMethodChange={handleSortMethodChange} />
+            }
           />
-          {/* {comments &&
-            comments.map((c, i) => (
-              <Post key={i} postType={PostTypes.comment} id={c.id} />
-            ))} */}
 
           {comments.length > 0 ? (
-            comments.map((c, i) => (
+            SortEntryArray(comments, sortBy).map((c, i) => (
               <Post key={i} postType={PostTypes.comment} id={c.id} />
             ))
           ) : (
@@ -64,9 +64,10 @@ class PostDetails extends React.Component {
   }
 }
 
-function mapStateToProps({ CommentData, PostData }, ownProps) {
+function mapStateToProps({ CommentData, PostData, SortData }, ownProps) {
   return {
-    comments: CommentData
+    comments: CommentData,
+    sortBy: SortData[ownProps.match.params.postID]
   };
 }
 
@@ -89,7 +90,9 @@ function mapDispatchToProps(dispatch, ownProps) {
           })
         );
     },
-    fetchComments: postID => dispatch(fetchCommentsAsync(postID))
+    fetchComments: postID => dispatch(fetchCommentsAsync(postID)),
+    handleSortMethodChange: sortBy =>
+      dispatch(sort(ownProps.match.params.postID, sortBy))
   };
 }
 
