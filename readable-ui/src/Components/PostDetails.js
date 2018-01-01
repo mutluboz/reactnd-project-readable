@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import NoData from "./Common/NoData";
 import { SortEntryArray } from "../Utils/Helpers";
 import { sort } from "../Actions/SortActions";
+import { withRouter } from "react-router-dom";
 
 const style = {
   margin: "2px 9px 2px 10px"
@@ -30,10 +31,12 @@ class PostDetails extends React.Component {
 
   render() {
     const { postID } = this.props.match.params;
-    const { comments, sortBy, handleSortMethodChange } = this.props;
+    const { comments, sortBy, handleSortMethodChange, history } = this.props;
 
     return (
       <div>
+        {/* return the home page if post is deleted */}
+        {!this.props.post && history.push("/")}
         <Entry entryType={EntryTypes.master} id={postID} />
 
         <div style={style}>
@@ -67,6 +70,7 @@ class PostDetails extends React.Component {
 function mapStateToProps({ CommentData, PostData, SortData }, ownProps) {
   return {
     comments: CommentData,
+    post: PostData[ownProps.match.params.postID],
     sortBy: SortData[ownProps.match.params.postID]
   };
 }
@@ -96,4 +100,6 @@ function mapDispatchToProps(dispatch, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(PostDetails)
+);
