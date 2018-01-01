@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import AppBar from "material-ui/AppBar";
 import Post from "./Post";
 import SortMenu from "./Common/SortMenu";
-import { PostTypes } from "../constants";
+import { EntryTypes } from "../constants";
 import { Link } from "react-router-dom";
 import NoData from "./Common/NoData";
 import { SortEntryArray } from "../Utils/Helpers";
@@ -49,7 +49,7 @@ class Category extends React.Component {
         />
         {Posts.length > 0 ? (
           SortEntryArray(Posts, sortBy).map(post => (
-            <Post key={post.id} postType={PostTypes.list} id={post.id} />
+            <Post key={post.id} postType={EntryTypes.list} id={post.id} />
           ))
         ) : (
           <NoData />

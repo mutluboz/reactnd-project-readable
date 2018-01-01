@@ -1,6 +1,6 @@
 import React from "react";
 import Post from "./Post";
-import { PostTypes } from "../constants";
+import { EntryTypes } from "../constants";
 import FloatingActionBtn from "./Common/FloatingActionBtn";
 import SortMenu from "./Common/SortMenu";
 import AppBar from "material-ui/AppBar";
@@ -34,7 +34,7 @@ class PostDetails extends React.Component {
 
     return (
       <div>
-        <Post postType={PostTypes.master} id={postID} />
+        <Post postType={EntryTypes.master} id={postID} />
 
         <div style={style}>
           <AppBar
@@ -47,7 +47,7 @@ class PostDetails extends React.Component {
 
           {comments.length > 0 ? (
             SortEntryArray(comments, sortBy).map((c, i) => (
-              <Post key={i} postType={PostTypes.comment} id={c.id} />
+              <Post key={i} postType={EntryTypes.comment} id={c.id} />
             ))
           ) : (
             <NoData isComment={true} />
@@ -73,7 +73,7 @@ function mapStateToProps({ CommentData, PostData, SortData }, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    openEntryModal: () => dispatch(togglePostModal(true, PostTypes.comment)),
+    openEntryModal: () => dispatch(togglePostModal(true, EntryTypes.comment)),
     closeEntryModal: () => dispatch(togglePostModal(false)),
     handleModification: entry => {
       if (entry.hasOwnProperty("id"))

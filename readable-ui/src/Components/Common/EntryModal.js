@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { togglePostModal } from "../../Actions/PostModalActions";
 import { Field, reduxForm } from "redux-form";
 import { reset } from "redux-form";
-import { PostTypes } from "../../constants";
+import { EntryTypes } from "../../constants";
 
 const validate = values => {
   const errors = {};
@@ -76,7 +76,7 @@ class EntryModal extends React.Component {
         <Dialog
           title={`${
             !initialValues.hasOwnProperty("id") ? "Enter" : "Modify"
-          } your ${entryType === PostTypes.post ? "post" : "comment"}`}
+          } your ${entryType === EntryTypes.post ? "post" : "comment"}`}
           modal={true}
           open={this.props.isVisible}
         >
@@ -109,7 +109,7 @@ class EntryModal extends React.Component {
                 />
               )}
 
-              {entryType === PostTypes.post && (
+              {entryType === EntryTypes.post && (
                 <Field
                   name="title"
                   id="title"
@@ -122,7 +122,7 @@ class EntryModal extends React.Component {
               <Field
                 name="body"
                 component={this.renderTextField}
-                label={`${entryType === PostTypes.post ? "Body" : "Comment"}`}
+                label={`${entryType === EntryTypes.post ? "Body" : "Comment"}`}
                 multiLine={true}
                 rows={2}
                 rowsMax={4}

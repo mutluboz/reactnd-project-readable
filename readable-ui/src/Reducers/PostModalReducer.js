@@ -1,7 +1,7 @@
 import { SHOW, HIDE, LOAD_POST } from "../Actions/PostModalActions";
-import { PostTypes } from "../constants";
+import { EntryTypes } from "../constants";
 
-const initialModalState = { isVisible: false, entryType: PostTypes.post };
+const initialModalState = { isVisible: false, entryType: EntryTypes.post };
 
 function PostModal(state = initialModalState, action) {
   switch (action.type) {

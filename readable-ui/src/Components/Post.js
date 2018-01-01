@@ -6,7 +6,7 @@ import EditIcon from "material-ui/svg-icons/editor/mode-edit";
 import DeleteIcon from "material-ui/svg-icons/content/clear";
 import IconButton from "material-ui/IconButton";
 import { Link } from "react-router-dom";
-import { PostTypes } from "../constants";
+import { EntryTypes } from "../constants";
 import { connect } from "react-redux";
 import {
   votePostAsync,
@@ -22,7 +22,7 @@ import { TimeAgo } from "../Utils/Helpers";
 
 class Post extends React.Component {
   componentDidMount() {
-    if (!this.props.post && this.props.postType === PostTypes.master) {
+    if (!this.props.post && this.props.postType === EntryTypes.master) {
       //fetch post from api, is state doesn't contain this spesific post
       //e.c. users can directly call /posts/:posId url
       this.props.getPost(this.props.id);
@@ -37,16 +37,18 @@ class Post extends React.Component {
 
     if (post)
       commentText =
-        postType === PostTypes.comment
+        postType === EntryTypes.comment
           ? ""
           : ` - ${post.commentCount} comments`;
 
-    if (postType === PostTypes.list)
+    if (postType === EntryTypes.list)
       titleSection = post && (
         <Link to={`/posts/${post.id}`} className="no-text-decoration">
           <CardTitle
             title={post.title}
-            subtitle={`submitted ${TimeAgo(post.timestamp)} by ${post.author}${commentText}`}
+            subtitle={`submitted ${TimeAgo(post.timestamp)} by ${
+              post.author
+            }${commentText}`}
           />
         </Link>
       );
@@ -54,14 +56,16 @@ class Post extends React.Component {
       titleSection = post && (
         <CardTitle
           title={post.title}
-          subtitle={`submitted ${TimeAgo(post.timestamp)} by ${post.author}${commentText}`}
+          subtitle={`submitted ${TimeAgo(post.timestamp)} by ${
+            post.author
+          }${commentText}`}
         />
       );
 
     return (
       <div
         className={
-          postType === PostTypes.comment ? "post-comment" : "post-master"
+          postType === EntryTypes.comment ? "post-comment" : "post-master"
         }
       >
         {post && (
@@ -75,7 +79,7 @@ class Post extends React.Component {
                 <IconButton>
                   <DeleteIcon
                     onClick={f =>
-                      postType === PostTypes.comment
+                      postType === EntryTypes.comment
                         ? this.props.deleteComment(post)
                         : this.props.deletePost(post.id)
                     }
@@ -89,7 +93,7 @@ class Post extends React.Component {
                 score={post.voteScore}
                 id={post.id}
                 onVoteClick={
-                  postType === PostTypes.comment ? voteComment : votePost
+                  postType === EntryTypes.comment ? voteComment : votePost
                 }
               />
               <div className="post-body">
@@ -104,7 +108,7 @@ class Post extends React.Component {
 }
 
 function mapStateToProps({ PostData, CommentData }, ownProps) {
-  if (ownProps.postType === PostTypes.comment)
+  if (ownProps.postType === EntryTypes.comment)
     return { post: CommentData.find(c => c.id === ownProps.id) };
   else return { post: PostData[ownProps.id] };
 }
@@ -120,9 +124,9 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch(
         loadPost(
           post,
-          ownProps.postType === PostTypes.comment
-            ? PostTypes.comment
-            : PostTypes.post
+          ownProps.postType === EntryTypes.comment
+            ? EntryTypes.comment
+            : EntryTypes.post
         )
       ),
     getPost: id => dispatch(getPostByIdAsync(id)),
