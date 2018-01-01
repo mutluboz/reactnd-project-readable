@@ -5,7 +5,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import PostDetails from "./PostDetails";
 import CategoryList from "./CategoryList";
 import CategoryView from "./CategoryView";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 
 class App extends Component {
   render() {
@@ -14,8 +14,14 @@ class App extends Component {
         <MuiThemeProvider>
           <div className="App">
             <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <h1 className="App-title">Welcome to React</h1>
+              <Link
+                to={`/`}
+                className="no-text-decoration"
+                style={{ color: "white" }}
+              >
+                <img src={logo} className="App-logo" alt="logo" />
+                <h1 className="App-title">Readable</h1>
+              </Link>
             </header>
             <Switch>
               <Route exact path="/" component={CategoryList} />
