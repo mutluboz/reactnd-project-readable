@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import AppBar from "material-ui/AppBar";
-import Post from "./Post";
+import Entry from "./Entry";
 import SortMenu from "./Common/SortMenu";
 import { EntryTypes } from "../constants";
 import { Link } from "react-router-dom";
@@ -49,7 +49,7 @@ class Category extends React.Component {
         />
         {Posts.length > 0 ? (
           SortEntryArray(Posts, sortBy).map(post => (
-            <Post key={post.id} postType={EntryTypes.list} id={post.id} />
+            <Entry key={post.id} entryType={EntryTypes.list} id={post.id} />
           ))
         ) : (
           <NoData />

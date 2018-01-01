@@ -3,7 +3,7 @@ import Category from "./Category";
 import FloatingActionBtn from "./Common/FloatingActionBtn";
 import { connect } from "react-redux";
 import { fetchPostsAsync, addOrUpdatePostAsync } from "../Actions/PostActions";
-import { togglePostModal } from "../Actions/PostModalActions";
+import { toggleEntryModal } from "../Actions/EntryModalActions";
 import { getCategories } from "../Utils/ReadableApi";
 import EntryModal from "./Common/EntryModal";
 
@@ -73,8 +73,8 @@ function mapDispatchToProps(dispatch) {
     getPosts: () => dispatch(fetchPostsAsync()),
     addOrUpdatePost: post =>
       dispatch(addOrUpdatePostAsync(post.id ? true : false, post)),
-    openEntryModal: () => dispatch(togglePostModal(true)),
-    closeEntryModal: () => dispatch(togglePostModal(false))
+    openEntryModal: () => dispatch(toggleEntryModal(true)),
+    closeEntryModal: () => dispatch(toggleEntryModal(false))
   };
 }
 

@@ -5,7 +5,7 @@ import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import { connect } from "react-redux";
-import { togglePostModal } from "../../Actions/PostModalActions";
+import { toggleEntryModal } from "../../Actions/EntryModalActions";
 import { Field, reduxForm } from "redux-form";
 import { reset } from "redux-form";
 import { EntryTypes } from "../../constants";
@@ -145,23 +145,23 @@ class EntryModal extends React.Component {
   }
 }
 
-function mapStateToProps({ PostModal }) {
+function mapStateToProps({ EntryModal }) {
   return {
-    isVisible: PostModal.isVisible,
-    entryType: PostModal.entryType,
-    initialValues: PostModal
+    isVisible: EntryModal.isVisible,
+    entryType: EntryModal.entryType,
+    initialValues: EntryModal
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    close: () => dispatch(togglePostModal(false)),
-    reset: () => dispatch(reset("postForm"))
+    close: () => dispatch(toggleEntryModal(false)),
+    reset: () => dispatch(reset("entryType"))
   };
 }
 
 EntryModal = reduxForm({
-  form: "postForm",
+  form: "entryForm",
   validate,
   enableReinitialize: true
 })(EntryModal);

@@ -1,5 +1,5 @@
 import { reset } from "redux-form";
-import { togglePostModal } from "../Actions/PostModalActions";
+import { toggleEntryModal } from "../Actions/EntryModalActions";
 import { updateCommentCount } from "../Actions/PostActions";
 import {
   getComments,
@@ -72,8 +72,8 @@ export function addOrUpdateCommentAsync(isUpdating, comment) {
         }
       })
       .then(() => {
-        dispatch(reset("postForm"));
-        dispatch(togglePostModal(false));
+        dispatch(reset("entryForm"));
+        dispatch(toggleEntryModal(false));
       });
   };
 }

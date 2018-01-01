@@ -1,5 +1,5 @@
 import React from "react";
-import Post from "./Post";
+import Entry from "./Entry";
 import { EntryTypes } from "../constants";
 import FloatingActionBtn from "./Common/FloatingActionBtn";
 import SortMenu from "./Common/SortMenu";
@@ -10,7 +10,7 @@ import {
   fetchCommentsAsync,
   addOrUpdateCommentAsync
 } from "../Actions/CommentActions";
-import { togglePostModal } from "../Actions/PostModalActions";
+import { toggleEntryModal } from "../Actions/EntryModalActions";
 import { connect } from "react-redux";
 import NoData from "./Common/NoData";
 import { SortEntryArray } from "../Utils/Helpers";
@@ -34,7 +34,7 @@ class PostDetails extends React.Component {
 
     return (
       <div>
-        <Post postType={EntryTypes.master} id={postID} />
+        <Entry entryType={EntryTypes.master} id={postID} />
 
         <div style={style}>
           <AppBar
@@ -47,7 +47,7 @@ class PostDetails extends React.Component {
 
           {comments.length > 0 ? (
             SortEntryArray(comments, sortBy).map((c, i) => (
-              <Post key={i} postType={EntryTypes.comment} id={c.id} />
+              <Entry key={i} entryType={EntryTypes.comment} id={c.id} />
             ))
           ) : (
             <NoData isComment={true} />
@@ -73,8 +73,8 @@ function mapStateToProps({ CommentData, PostData, SortData }, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    openEntryModal: () => dispatch(togglePostModal(true, EntryTypes.comment)),
-    closeEntryModal: () => dispatch(togglePostModal(false)),
+    openEntryModal: () => dispatch(toggleEntryModal(true, EntryTypes.comment)),
+    closeEntryModal: () => dispatch(toggleEntryModal(false)),
     handleModification: entry => {
       if (entry.hasOwnProperty("id"))
         dispatch(

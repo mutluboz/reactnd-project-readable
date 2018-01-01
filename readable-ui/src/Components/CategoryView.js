@@ -1,7 +1,7 @@
 import React from "react";
 import Category from "./Category";
 import { connect } from "react-redux";
-import { togglePostModal } from "../Actions/PostModalActions";
+import { toggleEntryModal } from "../Actions/EntryModalActions";
 import {
   fetchPostsByCategoryAsync,
   addOrUpdatePostAsync
@@ -53,8 +53,8 @@ function mapDispatchToProps(dispatch, ownProps) {
           category: ownProps.match.params.category //inject category
         })
       ),
-    openEntryModal: () => dispatch(togglePostModal(true)),
-    closeEntryModal: () => dispatch(togglePostModal(false))
+    openEntryModal: () => dispatch(toggleEntryModal(true)),
+    closeEntryModal: () => dispatch(toggleEntryModal(false))
   };
 }
 

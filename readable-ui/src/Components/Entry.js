@@ -17,12 +17,12 @@ import {
   voteCommentAsync,
   deleteCommentAsync
 } from "../Actions/CommentActions";
-import { loadPost } from "../Actions/PostModalActions";
+import { loadEntry } from "../Actions/EntryModalActions";
 import { TimeAgo } from "../Utils/Helpers";
 
-class Post extends React.Component {
+class Entry extends React.Component {
   componentDidMount() {
-    if (!this.props.post && this.props.postType === EntryTypes.master) {
+    if (!this.props.entry && this.props.entryType === EntryTypes.master) {
       //fetch post from api, is state doesn't contain this spesific post
       //e.c. users can directly call /posts/:posId url
       this.props.getPost(this.props.id);
@@ -30,34 +30,34 @@ class Post extends React.Component {
   }
 
   render() {
-    const { post, postType, votePost, voteComment } = this.props;
+    const { entry, entryType, votePost, voteComment } = this.props;
     let titleSection = null;
 
     let commentText = null;
 
-    if (post)
+    if (entry)
       commentText =
-        postType === EntryTypes.comment
+        entryType === EntryTypes.comment
           ? ""
-          : ` - ${post.commentCount} comments`;
+          : ` - ${entry.commentCount} comments`;
 
-    if (postType === EntryTypes.list)
-      titleSection = post && (
-        <Link to={`/posts/${post.id}`} className="no-text-decoration">
+    if (entryType === EntryTypes.list)
+      titleSection = entry && (
+        <Link to={`/posts/${entry.id}`} className="no-text-decoration">
           <CardTitle
-            title={post.title}
-            subtitle={`submitted ${TimeAgo(post.timestamp)} by ${
-              post.author
+            title={entry.title}
+            subtitle={`submitted ${TimeAgo(entry.timestamp)} by ${
+              entry.author
             }${commentText}`}
           />
         </Link>
       );
     else
-      titleSection = post && (
+      titleSection = entry && (
         <CardTitle
-          title={post.title}
-          subtitle={`submitted ${TimeAgo(post.timestamp)} by ${
-            post.author
+          title={entry.title}
+          subtitle={`submitted ${TimeAgo(entry.timestamp)} by ${
+            entry.author
           }${commentText}`}
         />
       );
@@ -65,23 +65,23 @@ class Post extends React.Component {
     return (
       <div
         className={
-          postType === EntryTypes.comment ? "post-comment" : "post-master"
+          entryType === EntryTypes.comment ? "post-comment" : "post-master"
         }
       >
-        {post && (
+        {entry && (
           <Card>
             <div className="flex-container justify-content-space-between">
               {titleSection}
               <div>
                 <IconButton>
-                  <EditIcon onClick={f => this.props.loadEditForm(post)} />
+                  <EditIcon onClick={f => this.props.loadEditForm(entry)} />
                 </IconButton>
                 <IconButton>
                   <DeleteIcon
                     onClick={f =>
-                      postType === EntryTypes.comment
-                        ? this.props.deleteComment(post)
-                        : this.props.deletePost(post.id)
+                      entryType === EntryTypes.comment
+                        ? this.props.deleteComment(entry)
+                        : this.props.deletePost(entry.id)
                     }
                   />
                 </IconButton>
@@ -90,14 +90,14 @@ class Post extends React.Component {
             <Divider />
             <div className="flex-container">
               <VoteBar
-                score={post.voteScore}
-                id={post.id}
+                score={entry.voteScore}
+                id={entry.id}
                 onVoteClick={
-                  postType === EntryTypes.comment ? voteComment : votePost
+                  entryType === EntryTypes.comment ? voteComment : votePost
                 }
               />
               <div className="post-body">
-                <CardText>{post.body}</CardText>
+                <CardText>{entry.body}</CardText>
               </div>
             </div>
           </Card>
@@ -108,9 +108,9 @@ class Post extends React.Component {
 }
 
 function mapStateToProps({ PostData, CommentData }, ownProps) {
-  if (ownProps.postType === EntryTypes.comment)
-    return { post: CommentData.find(c => c.id === ownProps.id) };
-  else return { post: PostData[ownProps.id] };
+  if (ownProps.entryType === EntryTypes.comment)
+    return { entry: CommentData.find(c => c.id === ownProps.id) };
+  else return { entry: PostData[ownProps.id] };
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
@@ -120,11 +120,11 @@ function mapDispatchToProps(dispatch, ownProps) {
     voteComment: (id, isUpvote, currentScore) =>
       dispatch(voteCommentAsync(id, isUpvote, currentScore)),
     deletePost: id => dispatch(deletePostAsync(id)),
-    loadEditForm: post =>
+    loadEditForm: entry =>
       dispatch(
-        loadPost(
-          post,
-          ownProps.postType === EntryTypes.comment
+        loadEntry(
+          entry,
+          ownProps.entryType === EntryTypes.comment
             ? EntryTypes.comment
             : EntryTypes.post
         )
@@ -134,4 +134,4 @@ function mapDispatchToProps(dispatch, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Entry);

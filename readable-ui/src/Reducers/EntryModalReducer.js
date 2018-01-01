@@ -1,9 +1,9 @@
-import { SHOW, HIDE, LOAD_POST } from "../Actions/PostModalActions";
+import { SHOW, HIDE, LOAD_ENTRY } from "../Actions/EntryModalActions";
 import { EntryTypes } from "../constants";
 
 const initialModalState = { isVisible: false, entryType: EntryTypes.post };
 
-function PostModal(state = initialModalState, action) {
+function EntryModal(state = initialModalState, action) {
   switch (action.type) {
     case SHOW: {
       return {
@@ -15,13 +15,13 @@ function PostModal(state = initialModalState, action) {
     case HIDE: {
       return initialModalState;
     }
-    case LOAD_POST: {
-      const { post } = action;
-      return post;
+    case LOAD_ENTRY: {
+      const { entry } = action;
+      return entry;
     }
     default:
       return state;
   }
 }
 
-export default PostModal;
+export default EntryModal;

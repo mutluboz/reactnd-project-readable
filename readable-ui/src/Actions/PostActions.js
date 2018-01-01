@@ -8,7 +8,7 @@ import {
 } from "../Utils/ReadableApi";
 import { normalize, schema } from "normalizr";
 import { reset } from "redux-form";
-import { togglePostModal } from "../Actions/PostModalActions";
+import { toggleEntryModal } from "../Actions/EntryModalActions";
 
 export const FETCH_POSTS = "FETCH_POSTS";
 export const UPDATE_POST_SCORE = "UPDATE_POST_SCORE";
@@ -102,8 +102,8 @@ export function addOrUpdatePostAsync(isUpdating, post) {
           });
       })
       .then(() => {
-        dispatch(reset("postForm"));
-        dispatch(togglePostModal(false));
+        dispatch(reset("entryForm"));
+        dispatch(toggleEntryModal(false));
       });
   };
 }
