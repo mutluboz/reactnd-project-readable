@@ -15,55 +15,66 @@ import { connect } from "react-redux";
 import NoData from "./Common/NoData";
 import { SortEntryArray } from "../Utils/Helpers";
 import { sort } from "../Actions/SortActions";
-import { withRouter } from "react-router-dom";
+import NotFound from "./Common/NotFound";
+import { getPostByIdAsync } from "../Actions/PostActions";
 
 const style = {
   margin: "2px 9px 2px 10px"
 };
 
 class PostDetails extends React.Component {
+  state = {
+    initialized: false
+  };
+
   componentDidMount() {
     //ensure that pop up is closed
     this.props.closeEntryModal();
     //fetch comments
     this.props.fetchComments(this.props.match.params.postID);
+
+    this.props.getPost(this.props.match.params.postID);
+
+    this.setState({ initialized: true });
   }
 
   render() {
-    const { postID } = this.props.match.params;
-    const { comments, sortBy, handleSortMethodChange, history } = this.props;
+    const { postID, category } = this.props.match.params;
+    const { post, comments, sortBy, handleSortMethodChange } = this.props;
 
-    return (
-      <div>
-        {/* return the home page if post is deleted */}
-        {!this.props.post && history.push("/")}
-        <Entry entryType={EntryTypes.master} id={postID} />
+    if (this.state.initialized) {
+      if (!post || post.category !== category) return <NotFound />;
+      else
+        return (
+          <div>
+            <Entry entryType={EntryTypes.master} id={postID} />
 
-        <div style={style}>
-          <AppBar
-            title="Comments"
-            showMenuIconButton={false}
-            iconElementRight={
-              <SortMenu onSortMethodChange={handleSortMethodChange} />
-            }
-          />
+            <div style={style}>
+              <AppBar
+                title="Comments"
+                showMenuIconButton={false}
+                iconElementRight={
+                  <SortMenu onSortMethodChange={handleSortMethodChange} />
+                }
+              />
 
-          {comments.length > 0 ? (
-            SortEntryArray(comments, sortBy).map((c, i) => (
-              <Entry key={i} entryType={EntryTypes.comment} id={c.id} />
-            ))
-          ) : (
-            <NoData isComment={true} />
-          )}
-        </div>
+              {comments.length > 0 ? (
+                SortEntryArray(comments, sortBy).map((c, i) => (
+                  <Entry key={i} entryType={EntryTypes.comment} id={c.id} />
+                ))
+              ) : (
+                <NoData isComment={true} />
+              )}
+            </div>
 
-        <FloatingActionBtn onClick={f => this.props.openEntryModal()} />
+            <FloatingActionBtn onClick={f => this.props.openEntryModal()} />
 
-        <EntryModal
-          onSubmit={values => this.props.handleModification(values)}
-        />
-      </div>
-    );
+            <EntryModal
+              onSubmit={values => this.props.handleModification(values)}
+            />
+          </div>
+        );
+    } else return <h1>dasd</h1>;
   }
 }
 
@@ -96,10 +107,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     fetchComments: postID => dispatch(fetchCommentsAsync(postID)),
     handleSortMethodChange: sortBy =>
-      dispatch(sort(ownProps.match.params.postID, sortBy))
+      dispatch(sort(ownProps.match.params.postID, sortBy)),
+    getPost: id => dispatch(getPostByIdAsync(id))
   };
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(PostDetails)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);

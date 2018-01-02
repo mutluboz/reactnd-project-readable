@@ -43,7 +43,10 @@ class Entry extends React.Component {
 
     if (entryType === EntryTypes.list)
       titleSection = entry && (
-        <Link to={`/posts/${entry.id}`} className="no-text-decoration">
+        <Link
+          to={`/${entry.category}/${entry.id}`}
+          className="no-text-decoration"
+        >
           <CardTitle
             title={entry.title}
             subtitle={`submitted ${TimeAgo(entry.timestamp)} by ${

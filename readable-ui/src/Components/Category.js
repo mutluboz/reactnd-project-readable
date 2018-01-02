@@ -30,7 +30,7 @@ class Category extends React.Component {
           title={
             !inCategoryView ? (
               <Link
-                to={`/categories/${Title}`}
+                to={`/${Title}`}
                 style={
                   ({ textDecoration: "none !important" }, { color: "white" })
                 }
