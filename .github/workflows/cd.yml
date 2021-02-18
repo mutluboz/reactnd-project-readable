@@ -20,9 +20,9 @@ jobs:
           pr_allow_empty: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: echo
-        run : echo {{ github.event_path }}
+        run : echo ${{ github.event_path }}
       - name: echo2
-        run : echo {{ github.head_ref }}
+        run : echo ${{ github.head_ref }}
       - name: echo3
-        run : echo {{ github.ref }}
+        run : echo ${{ github.ref }}
         
