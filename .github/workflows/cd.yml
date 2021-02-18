@@ -1,0 +1,22 @@
+name: auto create pr to develop
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
+      
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: ${{ github.head_ref }}
+          destination_branch: "develop"
+          pr_title: ${{ format('Auto PR from {0}', github.head_ref) }}
+          pr_allow_empty: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        
