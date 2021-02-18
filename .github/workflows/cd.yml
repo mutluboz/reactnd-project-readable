@@ -14,15 +14,9 @@ jobs:
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
-          source_branch: ""
+          source_branch: ${{ github.head_ref }}
           destination_branch: "develop"
-          pr_title: "Auto pull-request"
+          pr_title: ${{ format('Auto PR from {0}', github.head_ref) }}
           pr_allow_empty: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: echo
-        run : echo ${{ github.event_path }}
-      - name: echo2
-        run : echo ${{ github.head_ref }}
-      - name: echo3
-        run : echo ${{ github.ref }}
         
