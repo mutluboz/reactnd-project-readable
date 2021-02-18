@@ -13,4 +13,3 @@ App Navigation
 1) Home page navigation : click header
 2) Category view : click on category name
 3) Post details view : click on post header
-
